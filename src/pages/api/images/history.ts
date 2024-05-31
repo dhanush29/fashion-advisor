@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         select: { id: true, blob: true, suggestion: true },
       });
 
-      const imagesWithBase64 = images.map(image => ({
+      const imagesWithBase64 = images.map((image : any)  => ({
         id: image.id,
         blob: image.blob.toString('base64'),
         suggestion: image.suggestion
