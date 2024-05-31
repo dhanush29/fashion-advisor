@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Navbar from '../components/Navbar'; 
-import { ClipLoader } from 'react-spinners'; 
+import Navbar from '../components/Navbar';
+import { ClipLoader } from 'react-spinners';
+import  Image  from 'next/image'; 
 import "../app/globals.css";
 
-interface Image {
+interface ImageData {
   id: number;
   blob: string;
-  suggestion: Suggestion; 
+  suggestion: Suggestion;
 }
 
 interface Suggestion {
@@ -16,7 +17,7 @@ interface Suggestion {
 }
 
 const History = () => {
-  const [images, setImages] = useState<Image[]>([]);
+  const [images, setImages] = useState<ImageData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -37,7 +38,7 @@ const History = () => {
       try {
         const response = await fetch('/api/images/history');
         if (response.ok) {
-          const data: Image[] = await response.json();
+          const data: ImageData[] = await response.json();
           setImages(data);
         } else {
           setError(`Error: ${response.statusText}`);
@@ -54,9 +55,9 @@ const History = () => {
 
   return (
     <>
-      <Navbar /> 
+      <Navbar />
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Image History</h1>
+        <h1 className="text-2xl font-bold mb-4"> History</h1>
         {loading ? (
           <div className="flex items-center justify-center">
             <ClipLoader color="#000" loading={loading} size={35} />
@@ -67,14 +68,15 @@ const History = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {images.map((image) => (
               <div key={image.id} className="border rounded-lg p-2 shadow-md">
-                <img
+                <Image
                   src={`data:image/png;base64,${image.blob}`}
                   alt={`Image ${image.id}`}
-                  className="w-full h-auto"
+                  width={300}
+                  height={200}
                 />
                 <div className="mt-2">
                   <h2 className="text-lg font-semibold">Suggestion:</h2>
-                  <p>{image.suggestion?.text}</p> 
+                  <p>{image.suggestion?.text}</p>
                 </div>
               </div>
             ))}

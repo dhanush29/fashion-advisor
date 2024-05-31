@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Image from 'next/image'; 
 
 const ImagePage = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const ImagePage = () => {
   return (
     <div>
       {imageSrc ? (
-        <img src={imageSrc} alt={`Image ${id}`} />
+        <Image src={imageSrc} alt={`Image ${id}`} width={500} height={300} /> 
       ) : (
         <div>Loading...</div>
       )}
