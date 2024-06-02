@@ -1,11 +1,11 @@
 const { ClarifaiStub, grpc } = require("clarifai-nodejs-grpc");
-require('dotenv').config(); 
 
-const PAT = process.env.PAT;
-const USER_ID = process.env.USER_ID;
-const APP_ID = process.env.APP_ID;
-const MODEL_ID = process.env.MODEL_ID;
-const MODEL_VERSION_ID = process.env.MODEL_VERSION_ID;
+
+const PAT = 'a9cc81a85a7d41c097514c393dade2e3';
+const USER_ID = 'liuhaotian';
+const APP_ID = 'llava';
+const MODEL_ID = 'llava-v1_6-mistral-7b';
+const MODEL_VERSION_ID =  '763595a061834b12adb55c929716145e';
 const RAW_TEXT = 'Give a advice to improve the fashion within 50 words? Output as a single paragraph without points.';
 
 async function getRawTextFromImage(imageBytes) {
