@@ -1,9 +1,13 @@
-"use client";
+"use client"
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const Navbar = () => {
+interface NavbarProps {
+  credits: number; 
+}
+
+const Navbar: React.FC<NavbarProps> = ({ credits }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
@@ -34,7 +38,10 @@ const Navbar = () => {
             <span className="text-white text-2xl font-bold cursor-pointer hover:text-gray-200 transition duration-300">Home</span>
           </Link>
         </div>
-        <div>
+        <div className="flex items-center">
+          {isAuthenticated && (
+            <span className="text-white mx-2">Credits: {credits}</span>
+          )}
           {isAuthenticated ? (
             <>
               <Link href="/upload">

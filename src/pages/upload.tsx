@@ -9,6 +9,8 @@ export default function Upload() {
   const [loading, setLoading] = useState<boolean>(false);
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showDialog, setShowDialog] = useState<boolean>(false);
+  const [credits, setCredits] = useState<number>(0);  // State for credits
   const router = useRouter();
 
   useEffect(() => {
@@ -17,8 +19,17 @@ export default function Upload() {
       const data = await response.json();
       if (!data.isAuthenticated) {
         router.push('/');
+      } else {
+        fetchCredits(); 
       }
     };
+
+    const fetchCredits = async () => {
+      const response = await fetch('/api/user/credits');  
+      const data = await response.json();
+      setCredits(data.credits);
+    };
+
     checkAuth();
   }, [router]);
 
@@ -41,6 +52,8 @@ export default function Upload() {
       if (response.ok) {
         const data = await response.json();
         setSuggestion(data.suggestion.text);
+        setCredits(data.credits);  // Update credits state
+        setShowDialog(true);
       } else if (response.status === 400) {
         const data = await response.json();
         alert(data.message);
@@ -55,9 +68,13 @@ export default function Upload() {
     }
   };
 
+  const closeDialog = () => {
+    setShowDialog(false);
+  };
+
   return (
     <>
-      <Navbar />
+      <Navbar credits={credits} />  {/* Pass credits to Navbar */}
       <div className="flex flex-col justify-center items-center h-screen">
         <form className="p-8 border rounded-lg shadow-md" onSubmit={handleSubmit}>
           <h2 className="text-2xl font-bold mb-4">Upload Image</h2>
@@ -80,10 +97,21 @@ export default function Upload() {
             <ClipLoader color="#000" loading={loading} size={35} />
           </div>
         )}
+        {showDialog && suggestion && (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg relative max-w-lg w-full mx-4 transition-transform transform duration-300 scale-100">
+              <button 
+                className="absolute top-2 right-2 text-gray-500 hover:text-red-600 transition-colors duration-300 text-2xl"
+                onClick={closeDialog}
+              >
+                &times;
+              </button>
+              <h3 className="text-xl font-bold mb-4">Suggestion</h3>
+              <p>{suggestion}</p>
+            </div>
+          </div>
+        )}
         <div className="mt-4 max-h-60 overflow-y-auto">
-          {suggestion && (
-            <p>Suggestion: {suggestion}</p>
-          )}
           {error && (
             <p className="text-red-500">{error}</p>
           )}
