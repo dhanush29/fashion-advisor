@@ -87,7 +87,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           message: 'Image uploaded successfully', 
           imageId: image.id, 
           suggestion: image.suggestion,
-          credits: updatedUser.credits  // Return updated credits
+          credits: updatedUser.credits  
         }); 
     }
     else {
