@@ -20,7 +20,7 @@ const runMiddleware = (req: NextApiRequest, res: NextApiResponse, fn: Function) 
 
 export const config = {
   api: {
-    bodyParser: false, // Disallow body parsing, since we're using multer
+    bodyParser: false, 
   },
 };
 
@@ -32,7 +32,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    // Run multer middleware to handle the file upload
     await runMiddleware(req, res, upload.single('image'));
 
     const fileBuffer = (req as any).file.buffer;

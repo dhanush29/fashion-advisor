@@ -8,7 +8,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const user = await validateUser(email, password);
       if (user) {
-        // Implement session/token creation logic here
         res.setHeader('Set-Cookie', cookie.serialize('user', String(user.id), {
           httpOnly : true,
           secure: process.env.NODE_ENV !== 'development',

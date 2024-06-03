@@ -3,7 +3,6 @@ import cookie from 'cookie';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    // Clear the cookie by setting it to expire immediately
     res.setHeader('Set-Cookie', cookie.serialize('user', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV !== 'development',
