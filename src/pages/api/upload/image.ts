@@ -55,7 +55,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     
     if(user?.credits) {
-        const suggestionText = await getRawTextFromImage(fileBuffer);
+        const suggestionText = "dummy suggestion"
+        // await getRawTextFromImage(fileBuffer);
 
         const image = await prisma.image.create({
             data: {
