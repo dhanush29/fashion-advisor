@@ -9,7 +9,7 @@ export default function Logout() {
     });
 
     if (res.ok) {
-      router.push('/login'); 
+      router.push('/'); 
     } else {
       console.error('Logout failed');
     }
